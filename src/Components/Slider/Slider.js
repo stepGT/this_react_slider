@@ -5,7 +5,15 @@ class Slider extends Component {
   constructor() {
     super();
     this.state = {
-      images: [],
+      images: [
+          '/img/1.jpg',
+          '/img/2.jpg',
+          '/img/3.jpg',
+          '/img/4.jpg',
+          '/img/5.jpg',
+          '/img/6.jpg',
+          '/img/7.jpg',
+      ],
       currentImageIndex: 0,
       isCycleMode: false
     };
@@ -32,7 +40,7 @@ class Slider extends Component {
             <button onClick={this.nextSlideHandler} data-direction="prev">PREV</button>
           </div>
           <div>
-            <img src={this.state.currentImageIndex} alt=""/>
+            <img src={this.state.images[this.state.currentImageIndex]} alt=""/>
           </div>
           <div>
             <button onClick={this.nextSlideHandler} data-direction="next">NEXT</button>
