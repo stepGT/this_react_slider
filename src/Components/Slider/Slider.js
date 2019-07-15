@@ -16,49 +16,62 @@ class Slider extends Component {
       ],
       currentImageIndex: 0,
       isCycleMode: false,
-      canGoPrev: false,
-      canGoNext: true
+      disabledPrev: false,
+      disabledNext: true
     };
-    this.nextSlideHandler = this.nextSlideHandler.bind(this);
+    this.slideHandler = this.slideHandler.bind(this);
   }
 
-  nextSlideHandler(e) {
-    let newIndex = this.state.currentImageIndex;
+  slideHandler(e) {
+    let currentImageIndex = this.state.currentImageIndex;
+    let newImageIndex = currentImageIndex;
+    //
     if (e.currentTarget.dataset.direction === 'next') {
-      if (newIndex < this.state.images.length - 1) {
-        newIndex = this.state.currentImageIndex + 1;
-        this.state.canGoPrev = true;
-      }
-      // If end - disabled
-      if(newIndex === this.state.images.length - 1) {
-        this.state.canGoNext = false;
-      }
+      newImageIndex = this._nextStep(currentImageIndex);
     }
     else {
-      if (newIndex > 0) {
-        newIndex = this.state.currentImageIndex - 1;
-        this.state.canGoNext = true;
-      }
-      if(newIndex === 0) {
-        this.state.canGoPrev = false;
-      }
+      newImageIndex = this._prevStep(currentImageIndex);
     }
-    this.setState({
-      currentImageIndex: newIndex
-    });
+    this.setState({currentImageIndex: newImageIndex});
+  }
+
+  _prevStep(currentImageIndex) {
+    let newIndex = currentImageIndex;
+    if (currentImageIndex > 0) {
+      newIndex = this.state.currentImageIndex - 1;
+      this.setState({disabledNext: true});
+    }
+    // If first - disabled prev
+    if (newIndex === 0) {
+      this.setState({disabledPrev: false});
+    }
+    return newIndex;
+  }
+
+  _nextStep(currentImageIndex) {
+    let newIndex = currentImageIndex;
+    if (currentImageIndex < this.state.images.length - 1) {
+      newIndex = this.state.currentImageIndex + 1;
+      this.setState({disabledPrev: true});
+    }
+    // If end - disabled next
+    if (newIndex === this.state.images.length - 1) {
+      this.setState({disabledNext: false});
+    }
+    return newIndex;
   }
 
   render() {
     return (
         <div className="react_slider">
           <div>
-            <button disabled={!this.state.canGoPrev} onClick={this.nextSlideHandler} data-direction="prev">PREV</button>
+            <button disabled={!this.state.disabledPrev} onClick={this.slideHandler} data-direction="prev">PREV</button>
           </div>
           <div>
             <img src={this.state.images[this.state.currentImageIndex]} alt=""/>
           </div>
           <div>
-            <button disabled={!this.state.canGoNext} onClick={this.nextSlideHandler} data-direction="next">NEXT</button>
+            <button disabled={!this.state.disabledNext} onClick={this.slideHandler} data-direction="next">NEXT</button>
           </div>
         </div>
     );
