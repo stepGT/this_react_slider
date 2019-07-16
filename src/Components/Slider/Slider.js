@@ -2,24 +2,14 @@ import React, {Component} from 'react';
 import './Slider.scss';
 
 class Slider extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
-      images: [
-          '/img/1.jpg',
-          '/img/2.jpg',
-          '/img/3.jpg',
-          '/img/4.jpg',
-          '/img/5.jpg',
-          '/img/6.jpg',
-          '/img/7.jpg',
-      ],
-      currentImageIndex: 0,
-      isCycleMode: false,
-      disabledPrev: false,
-      disabledNext: true
+      images: props.images,
+      currentImageIndex: props.index,
+      disabledPrev: props.index > 0,
+      disabledNext: props.index < props.images.length - 1
     };
-    this.slideHandler = this.slideHandler.bind(this);
   }
 
   slideHandler(e) {
