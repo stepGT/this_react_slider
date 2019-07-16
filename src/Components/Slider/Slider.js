@@ -55,13 +55,13 @@ class Slider extends Component {
     return (
         <div className="react_slider">
           <div>
-            <button disabled={!this.state.disabledPrev} onClick={this.slideHandler} data-direction="prev">PREV</button>
+            <button disabled={!this.state.disabledPrev} onClick={this.slideHandler.bind(this)} data-direction="prev">PREV</button>
           </div>
           <div>
             <img src={this.state.images[this.state.currentImageIndex]} alt=""/>
           </div>
           <div>
-            <button disabled={!this.state.disabledNext} onClick={this.slideHandler} data-direction="next">NEXT</button>
+            <button disabled={!this.state.disabledNext} onClick={this.slideHandler.bind(this)} data-direction="next">NEXT</button>
           </div>
         </div>
     );
